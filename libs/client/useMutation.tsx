@@ -1,33 +1,35 @@
 import { useState } from "react";
+// https://hyunseob.github.io/2017/01/14/typescript-generic/
+// https://trustyoo86.github.io/typescript/2019/04/23/typescript-generic.html
 
-interface UseMutationState {
+interface UseMutationState<T> {
   loading: boolean;
-  data?: object;
+  data?: T;
   error?: object;
 }
+type UseMutationResult<T> = [(data: any) => void, UseMutationState<T>];
 
-type UseMutationResult = [(data: any) => void, UseMutationState];
-
-export default function useMutation(url: string): UseMutationResult {
-
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<undefined | any>(undefined);
-  const [error, setError] = useState<undefined | any>(undefined);
+export default function useMutation<T = any>(url: string): UseMutationResult<T> {
+  
+  const [state, setSate] = useState<UseMutationState<T>>({
+    loading: false,
+    data: undefined,
+    error: undefined,
+  })
 
   function mutation(data: any) {
-    setLoading(true);
-    fetch(url,{
-      method:"POST",   
-      headers:{
-        "Content-Type":"application/json"
+    setSate((prev) => ({ ...prev, loading: true }));
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
-    .then((res)=>res.json().catch(()=>{}))
-    .then(setData)
-    .catch(setError)
-    .finally(()=> setLoading(false))
+      .then((response) => response.json().catch(() => { }))
+      .then((data) => setSate((prev) => ({ ...prev, data })))
+      .catch((error) => setSate((prev) => ({ ...prev, error })))
+      .finally(() => setSate((prev) => ({ ...prev, loading: false })));
   }
-
-  return [mutation, { loading, data, error }];
+  return [mutation, { ...state }];
 }

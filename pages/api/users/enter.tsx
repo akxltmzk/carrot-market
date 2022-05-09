@@ -40,9 +40,7 @@ async function handler(
     // })
   }
   if(email){
-    
   }
-
 
   return res.json({ ok:true })
 }

@@ -1,7 +1,9 @@
-import client from "@libs/client/client";
-import withHandler, { ResponseType } from "@libs/server/withHandler";
+import twilio from "twilio"
 import { NextApiRequest, NextApiResponse } from "next";
+import withHandler, { ResponseType } from "@libs/server/withHandler";
+import client from "@libs/client/client";
 
+const twilioClient = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN)
 
 async function handler(
   req: NextApiRequest, 
@@ -29,54 +31,20 @@ async function handler(
     },
   });
 
-  console.log(token);
+  if(phone){
+    // const message =  await twilioClient.messages.create({
+    //   messagingServiceSid: process.env.TWILIO_MSID,
+    //   // 확실히 존재하는 환경변수라고 !를 붙이면 에러를 없앨 수 있음.
+    //   to: process.env.MY_PHONE!,
+    //   body:`Your login token is ${payload}`
+    // })
+  }
+  if(email){
+    
+  }
 
-  // if(email){
-  //   user = await client.user.findUnique({
-  //     where:{
-  //       email
-  //     }
-  //   })
-  //   if(user) console.log("find it!");
 
-  //   if(!user){
-  //     console.log("Did not find. will create");
-
-  //     user = await client.user.create({
-  //       data:{
-  //         name:"Anonymous",
-  //         email
-  //       }
-  //     })
-  //   }
-  //   console.log(user);
-  // }
-
-  // if(phone){
-  //   user = await client.user.findUnique({
-  //     where:{
-  //       Phone : +phone
-  //     }
-  //   })
-  //   if(user) console.log("find it!");
-
-  //   if(!user){
-  //     console.log("Did not find. will create");
-
-  //     user = await client.user.create({
-  //       data:{
-  //         name:"Anonymous",
-  //         Phone : +phone
-  //       }
-  //     })
-  //   }
-  //   console.log(user);
-  // }
-
-  return res
-        .json({
-          ok:true
-        })
+  return res.json({ ok:true })
 }
 
 export default withHandler("POST", handler);

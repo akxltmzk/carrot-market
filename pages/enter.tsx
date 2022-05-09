@@ -28,7 +28,7 @@ const Enter: NextPage = () => {
   const onValid = (validForm: EnterForm) => {
     enter(validForm)
   }
-  console.log(loading, data, error);
+  console.log(data);
   
   return (
     <div className="mt-16 px-4">

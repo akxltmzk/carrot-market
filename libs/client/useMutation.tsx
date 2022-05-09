@@ -1,12 +1,15 @@
 import { useState } from "react";
+
 // https://hyunseob.github.io/2017/01/14/typescript-generic/
 // https://trustyoo86.github.io/typescript/2019/04/23/typescript-generic.html
+// https://react.vlpt.us/basic/07-useState.html
 
 interface UseMutationState<T> {
   loading: boolean;
   data?: T;
   error?: object;
 }
+
 type UseMutationResult<T> = [(data: any) => void, UseMutationState<T>];
 
 export default function useMutation<T = any>(url: string): UseMutationResult<T> {

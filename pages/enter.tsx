@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+// tsconfig.json에서 경로 설정 가능
 import Button from "@components/button";
 import Input from "@components/input";
 import useMutation from "@libs/client/useMutation";
@@ -20,7 +21,10 @@ interface MutationResult {
 }
 
 const Enter: NextPage = () => {
+  
   const [enter, { loading, data, error }] = useMutation<MutationResult>("/api/users/enter");
+  // Token을 위한useMutation hook 의 재사용과, 만약 변수명이 같은것을 또 같은 변수 명으로 쓰고싶다면,
+  // type명을 다르게 명시하여 다른 변수로 취급되어 질수있다.
   const [confirmToken, { loading:tokenLoading, data:tokenData }] = useMutation<MutationResult>("/api/users/confirm");
   const [submitting, setSubmitting] = useState(false);
   const { register, handleSubmit, reset } = useForm<EnterForm>();

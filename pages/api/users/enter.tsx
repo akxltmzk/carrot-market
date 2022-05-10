@@ -1,3 +1,12 @@
+/* 
+  user를 생성,혹은 서치하고 token을 발행해서 user를 확인하는 api
+  user가 핸드폰 번호 혹은 이메일을 입력하면,
+  1. user가 있는지 확인
+  2. user가 있다면, token을 바로 생성
+  3. user가 없다면, user를 만들고, token을 생성
+  4. userId를 token model에 자동으로 연결해줌
+*/
+
 import twilio from "twilio"
 import { NextApiRequest, NextApiResponse } from "next";
 import withHandler, { ResponseType } from "@libs/server/withHandler";
@@ -9,7 +18,7 @@ async function handler(
   req: NextApiRequest, 
   res: NextApiResponse<ResponseType>) {
   const { phone, email } = req.body;
-  const user = phone ? { phone: +phone } : email ? { email } : null;
+  const user = phone ? { phone } : email ? { email } : null; 
   if(!user) return res.status(400).json({ok:false})
   const payload = Math.floor(100000 + Math.random() * 900000) + "";
 

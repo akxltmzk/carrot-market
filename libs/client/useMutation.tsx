@@ -1,8 +1,14 @@
-import { useState } from "react";
+/* 
+  script description : server에 request를 하는 동시에 응답에 따른 state를 관리해주는 hook 
+*/
 
-// https://hyunseob.github.io/2017/01/14/typescript-generic/
-// https://trustyoo86.github.io/typescript/2019/04/23/typescript-generic.html
-// https://react.vlpt.us/basic/07-useState.html
+/* ref link
+  https://hyunseob.github.io/2017/01/14/typescript-generic/
+  https://trustyoo86.github.io/typescript/2019/04/23/typescript-generic.html
+  https://react.vlpt.us/basic/07-useState.html
+*/
+
+import { useState } from "react";
 
 interface UseMutationState<T> {
   loading: boolean;
@@ -11,7 +17,6 @@ interface UseMutationState<T> {
 }
 
 type UseMutationResult<T> = [(data: any) => void, UseMutationState<T>];
-
 export default function useMutation<T = any>(url: string): UseMutationResult<T> {
   
   const [state, setSate] = useState<UseMutationState<T>>({

@@ -1,5 +1,7 @@
 import useMutation from "@libs/client/useMutation";
+import { Product } from "@prisma/client";
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Button from "../../components/button";
@@ -13,9 +15,16 @@ interface UploadProductForm {
   description: string;
 }
 
+interface UploadProductMutation{
+  ok: boolean;
+  // prisma가 모델을 만들면 자동으로 타입을 만들어주니깐 갖다 쓰면됨
+  product: Product;
+}
+
 const Upload: NextPage = () => {
+  const router = useRouter();
   const { register, handleSubmit } = useForm<UploadProductForm>();
-  const [uploadProduct,{loading,data}] = useMutation("/api/products")
+  const [uploadProduct,{loading,data}] = useMutation<UploadProductMutation>("/api/products")
   const onValid = (data:UploadProductForm)=>{
     if(loading) return
 
@@ -24,10 +33,10 @@ const Upload: NextPage = () => {
   }
 
   useEffect(()=>{
-    if(data.ok){
-      
+    if(data?.ok){
+      router.push(`/products/${data.product.id}`)
     }
-  },[data])
+  },[data, router])
 
   return (
     <Layout canGoBack title="Upload Product">

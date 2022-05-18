@@ -10,7 +10,7 @@
 import twilio from "twilio"
 import { NextApiRequest, NextApiResponse } from "next";
 import withHandler, { ResponseType } from "@libs/server/withHandler";
-import client from "@libs/client/client";
+import client from "@libs/server/client";
 
 const twilioClient = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN)
 

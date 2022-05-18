@@ -9,6 +9,7 @@ interface LoginForm {
 
 export default function Forms() {
   const {
+    // retsiter : input과 state를 연결해주는 역할(name, onBlur, onChnage, ref.. 를 담은 객채를 반환)
     register,
     handleSubmit,
     formState: { errors },
@@ -63,9 +64,6 @@ export default function Forms() {
     </form>
   );
 }
-
-
-
 
 // import { useState } from "react";
 

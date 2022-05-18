@@ -24,17 +24,20 @@ interface MutationResult {
 
 const Enter: NextPage = () => {
   
-  const [enter, { loading, data, error }] = useMutation<MutationResult>("/api/users/enter");
-
   /*
     Token을 위한useMutation hook 의 재사용과, 만약 변수명이 같은것을 또 같은 변수 명으로 쓰고싶다면,
     type명을 다르게 명시하여 다른 변수로 취급되어 질수있다.
   */
+  const [enter, { loading, data, error }] = useMutation<MutationResult>("/api/users/enter");
   const [confirmToken, { loading:tokenLoading, data:tokenData }] = useMutation<MutationResult>("/api/users/confirm");
-  const [submitting, setSubmitting] = useState(false);
+
+  // userForm hook
   const { register, handleSubmit, reset } = useForm<EnterForm>();
-  const {register:tokenRegister, handleSubmit:tokenHandleSubmit} = useForm<TokenForm>()
+  const { register:tokenRegister, handleSubmit:tokenHandleSubmit} = useForm<TokenForm>()
+
+  // use State hook
   const [method, setMethod] = useState<"email" | "phone">("email");
+  const [submitting, setSubmitting] = useState(false);
 
   const onEmailClick = () => {
     reset();

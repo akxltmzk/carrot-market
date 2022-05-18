@@ -13,12 +13,12 @@ async function handler(
     session:{user}
   } = req
 
-  await client.product.create({
+  const product = await client.product.create({
     data:{
       name,
       price,
       description,
-      image : "",
+      image:"xx",
       user:{
         connect:{
           id:user?.id
@@ -28,7 +28,8 @@ async function handler(
   })
 
   res.json({
-    ok: true
+    ok: true,
+    product,
   })
 }
 
